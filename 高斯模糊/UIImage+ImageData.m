@@ -61,6 +61,8 @@
 
 + (UIImage *)imageWithChar:(unsigned char *)image_data width:(int)width height:(int)height
 {
+    
+   
 
     CGColorSpaceRef cololr_space = CGColorSpaceCreateDeviceRGB();
     
@@ -80,7 +82,37 @@
     CGColorSpaceRelease(cololr_space);
     CGContextRelease(context_ref);
     
+   
+    
     return image;
+}
+
+
++ (CGImageRef)imageRefWithChar:(unsigned char *)image_data width:(int)width height:(int)height
+{
+    
+    
+    CGColorSpaceRef cololr_space = CGColorSpaceCreateDeviceRGB();
+    
+    CGContextRef    context_ref  = CGBitmapContextCreate(image_data,
+                                                         width,
+                                                         height,
+                                                         8,
+                                                         4 * width,
+                                                         cololr_space,
+                                                         kCGImageAlphaPremultipliedLast);
+    
+    CGImageRef     image_ref     = CGBitmapContextCreateImage(context_ref);
+    
+   // UIImage       *image         = [UIImage imageWithCGImage:image_ref];
+    
+    
+    CGColorSpaceRelease(cololr_space);
+    CGContextRelease(context_ref);
+    
+    
+    
+    return image_ref;
 }
 
 @end

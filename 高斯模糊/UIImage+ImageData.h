@@ -14,4 +14,6 @@
 
 + (UIImage *)imageWithChar:(unsigned char *)image_data width:(int)width height:(int)height;
 
++ (CGImageRef)imageRefWithChar:(unsigned char *)image_data width:(int)width height:(int)height;
+
 @end

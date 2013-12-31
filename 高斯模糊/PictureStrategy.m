@@ -36,6 +36,11 @@
     return nil;
 }
 
+- (void)pictureTransformProgress:(UIImage *)image
+{
+    //重写方法
+}
+
 #pragma mark -
 #pragma mark - dealloc
 

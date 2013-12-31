@@ -10,6 +10,7 @@
 #import "PictureManager.h"
 #import "GausscianBlurOne.h"
 #import "GausscianBlurTwo.h"
+#import "UIImage+ImageData.h"
 
 @interface RootViewController ()
 {
@@ -18,7 +19,10 @@
     
     UIButton    *_filter_button;       //过滤按键
     
+    UILabel     *_progress_label;      //进度label
+    
     BOOL         _is_filtering;        //是否在过滤图片
+    
     
 }
 
@@ -28,6 +32,9 @@
 
 /*过滤按键被按下*/
 - (void)filterButtonPressed:(id)sender;
+
+/*过滤图片*/
+- (void)filterImage;
 
 @end
 
@@ -39,8 +46,8 @@
 - (void)myLayer
 {
     //图片
-    UIImage *image = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle]pathForResource:@"test" ofType:@"jpg"]];
-    
+   // UIImage *image = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle]pathForResource:@"test" ofType:@"jpg"]];
+    UIImage *image = [UIImage imageNamed:@"test.jpg"];
     //原始图片的imageview
     
     [_old_image_view setFrame:CGRectMake(10.0f, 30.0f, 300.0f, 160.0f)];
@@ -66,6 +73,13 @@
     
     [self.view addSubview:_filtered_image_view];
     
+    //进度label
+    
+    [_progress_label setFrame:CGRectMake(240.0f, 410.0f, 80.0f, 30.0f)];
+    [_progress_label setFont:[UIFont systemFontOfSize:12.0f]];
+    
+    [self.view addSubview:_progress_label];
+    
     
     
 //    PictureManager   *pic_m    = [[[PictureManager alloc] init] autorelease];
@@ -80,6 +94,74 @@
 
 }
 
+
+- (void)filterImage
+{
+    
+   // UIImage          *image    = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle]pathForResource:@"test" ofType:@"jpg"]];
+    UIImage *image = [UIImage imageNamed:@"test.jpg"];
+    
+    PictureManager   *pic_m    = [[[PictureManager alloc] init] autorelease];
+    GausscianBlurTwo *gb2      = [[GausscianBlurTwo alloc] init];
+    //
+    //
+    //    //开始模糊
+    [gb2 setStartBlock:^(void *data) {
+       
+    }];
+    
+    
+
+    //进行中
+    [gb2 setShowProgressBlock:^(double value, void *data, id information) {
+      
+        
+      
+        
+        CGSize size;
+        [(NSValue *)information getValue:&size];
+        
+        
+        //        UIImage *temp_image = [UIImage imageWithChar:data width:size.width height:size.height];
+        //
+        //        [temp_image_view setImage:temp_image];
+        
+        CGImageRef temp_image_ref = [UIImage imageRefWithChar:data width:size.width height:size.height];
+            
+            //[temp_image_view setImage:[UIImage imageWithCGImage:temp_image_ref]];
+            
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                  _progress_label.text = [NSString stringWithFormat:@"%.2f %%",(value * 100)];
+                [_filtered_image_view setImage:[UIImage imageWithCGImage:temp_image_ref]];
+            });
+        
+        //
+        
+    }];
+    
+    //结束
+    [gb2 setEndBlock:^(void *data) {
+       // // [_filtered_image_view setImage:(UIImage *)data];
+        //[_filtered_image_view setImage:[UIImage imageWithCGImage:data]];
+        
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            [_filtered_image_view setImage:[UIImage imageWithCGImage:data]];
+            _is_filtering = NO;
+            
+        });
+        
+    }];
+    
+    
+    [gb2 setSigma:4.0f];
+    pic_m.picture_strategy = gb2;
+    [gb2 release], gb2 = nil;
+    
+    // something
+    [pic_m pictureTransformProgress:image];
+}
+
+
 - (void)filterButtonPressed:(id)sender
 {
     if(_is_filtering)
@@ -90,26 +172,33 @@
                                               cancelButtonTitle:@"确定" otherButtonTitles: nil];
         [alert show];
         [alert release];
+        
+        return;
     }
     
     _is_filtering = YES;
     
-    UIImage          *image    = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle]pathForResource:@"test" ofType:@"jpg"]];
     
-    PictureManager   *pic_m    = [[[PictureManager alloc] init] autorelease];
-    GausscianBlurTwo *gb2      = [[GausscianBlurTwo alloc] init];
+//    NSThread* myThread = [[NSThread alloc] initWithTarget:self
+//                                                 selector:@selector(filterImage)
+//                                                   object:nil];
+//    [myThread start];
     
-    [gb2 setEndBlock:^{
-        NSLog(@"结束了");
-        _is_filtering = NO;
-    }];
-    [gb2 setSigma:4.0f];
-    [pic_m setPicture_strategy:gb2];
-    [gb2 release], gb2 = nil;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+       
+        [self filterImage];
 
-    UIImage          *gb_image = [pic_m pictureTransform:image];
+        
+    });
     
-    [_filtered_image_view setImage:gb_image];
+    
+//    UIImage     *gb_image = [pic_m pictureTransform:image];
+//    
+//
+//       // NSLog(@"123");
+//    [_filtered_image_view setImage:gb_image];
+    
+
 
 }
 
@@ -126,6 +215,7 @@
         _old_image_view       = [[UIImageView alloc] init];
         _filtered_image_view  = [[UIImageView alloc] init];
         _filter_button        = [[UIButton alloc] init];
+        _progress_label       = [[UILabel alloc] init];
         
         _is_filtering         = NO;
     }
@@ -159,6 +249,8 @@
     [_filtered_image_view release], _filtered_image_view  = nil;
     
     [_filter_button       release], _filter_button        = nil;
+    
+    [_progress_label      release], _progress_label       = nil;
 }
 
 @end

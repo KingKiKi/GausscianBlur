@@ -8,8 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-typedef void (^VoidBlock)();
-typedef void (^ShowProgressBlock)(double value);
+typedef void (^VoidBlock)(void* data);
+typedef void (^ShowProgressBlock)(double value,void* data,id information);
 
 @interface PictureStrategy : NSObject
 {
@@ -18,8 +18,14 @@ typedef void (^ShowProgressBlock)(double value);
     ShowProgressBlock  _show_progress_block; //进度
 }
 
+@property (nonatomic,assign) BOOL is_on_progress;
 
+
+/*图片变化的2个方法*/
 - (UIImage*)pictureTransform:(UIImage *)image;
+
+- (void)pictureTransformProgress:(UIImage *)image;
+
 
 - (void)setStartBlock:(VoidBlock)start_block;
 - (void)setEndBlock:(VoidBlock)end_block;

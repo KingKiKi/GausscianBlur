@@ -17,6 +17,7 @@
     
     double  *_gaussian_template;   //模糊的模版
     int      _template_size;       //模版的尺寸
+    
 }
 
 @property (nonatomic,assign)   double sigma;

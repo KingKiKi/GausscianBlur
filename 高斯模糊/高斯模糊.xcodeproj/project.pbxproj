@@ -97,6 +97,7 @@
 		AC256D61186DACC100B9CF92 = {
 			isa = PBXGroup;
 			children = (
+				AC5A28071871E75500D08E27 /* 进度条 */,
 				AC256DA4186DC30E00B9CF92 /* 图形处理(未完成) */,
 				AC256DA1186DB10300B9CF92 /* 图片 */,
 				AC256D73186DACC100B9CF92 /* 高斯模糊 */,
@@ -191,6 +192,13 @@
 				AC256DB2186E023F00B9CF92 /* UIImage+ImageData.m */,
 			);
 			name = "图形处理(未完成)";
+			sourceTree = "<group>";
+		};
+		AC5A28071871E75500D08E27 /* 进度条 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "进度条";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -418,7 +426,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "高斯模糊/高斯模糊-Prefix.pch";
 				INFOPLIST_FILE = "高斯模糊/高斯模糊-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -431,7 +441,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "高斯模糊/高斯模糊-Prefix.pch";
 				INFOPLIST_FILE = "高斯模糊/高斯模糊-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

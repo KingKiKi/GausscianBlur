@@ -21,6 +21,6 @@
 
 - (UIImage *)pictureTransform:(UIImage *)image;
 
-
+- (void)pictureTransformProgress:(UIImage *)image;
 
 @end

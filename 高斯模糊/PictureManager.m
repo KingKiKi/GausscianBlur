@@ -21,6 +21,11 @@
    return [_picture_strategy pictureTransform:image];
 }
 
+- (void)pictureTransformProgress:(UIImage *)image
+{
+    [_picture_strategy pictureTransformProgress:image];
+}
+
 #pragma mark - 
 #pragma mark - dealloc
 
