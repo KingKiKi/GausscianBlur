@@ -46,12 +46,14 @@
 
 - (void)dealloc
 {
-    [super dealloc];
-    
     [_start_block         release], _start_block         = nil;
     
     [_end_block           release], _end_block           = nil;
     
     [_show_progress_block release], _show_progress_block = nil;
+    
+    [super dealloc];
+    
+
 }
 @end

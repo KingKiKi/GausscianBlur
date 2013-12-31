@@ -22,8 +22,7 @@
     UILabel     *_progress_label;      //进度label
     
     BOOL         _is_filtering;        //是否在过滤图片
-    
-    
+ 
 }
 
 
@@ -131,8 +130,8 @@
             //[temp_image_view setImage:[UIImage imageWithCGImage:temp_image_ref]];
             
             dispatch_sync(dispatch_get_main_queue(), ^{
-                  _progress_label.text = [NSString stringWithFormat:@"%.2f %%",(value * 100)];
-                [_filtered_image_view setImage:[UIImage imageWithCGImage:temp_image_ref]];
+                 _progress_label.text = [NSString stringWithFormat:@"%.2f %%",(value * 100)];
+                 [_filtered_image_view setImage:[UIImage imageWithCGImage:temp_image_ref]];
             });
         
         //
@@ -159,6 +158,7 @@
     
     // something
     [pic_m pictureTransformProgress:image];
+
 }
 
 
@@ -183,6 +183,7 @@
 //                                                 selector:@selector(filterImage)
 //                                                   object:nil];
 //    [myThread start];
+
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
        
@@ -199,7 +200,7 @@
 //    [_filtered_image_view setImage:gb_image];
     
 
-
+ 
 }
 
 
@@ -242,8 +243,6 @@
 
 - (void)dealloc
 {
-    [super dealloc];
-    
     [_old_image_view      release], _old_image_view       = nil;
     
     [_filtered_image_view release], _filtered_image_view  = nil;
@@ -251,6 +250,10 @@
     [_filter_button       release], _filter_button        = nil;
     
     [_progress_label      release], _progress_label       = nil;
+    
+    [super dealloc];
+    
+
 }
 
 @end

@@ -71,6 +71,11 @@
     _template_size     = _diameter * _diameter;
     _gaussian_template = (double *)malloc(_template_size * 8);
     
+    if(_gaussian_template == NULL)
+    {
+        NSLog(@"失败");
+        exit(0);
+    }
     
     double sum = 0.0f;
    
@@ -148,8 +153,6 @@
     image_data[4 * y * width + 4 * x + _b] = [self clampValue:green];
     image_data[4 * y * width + 4 * x + _c] = [self clampValue:blue];
     image_data[4 * y * width + 4 * x + _d] = 0xff;
-    
-
     
 }
 
@@ -235,7 +238,11 @@
     
     unsigned char *gbimage_data = (unsigned char*)malloc(4 * width * height);
 
-  
+    if(NULL == gbimage_data)
+    {
+        NSLog(@"失败");
+        exit(0);
+    }
     
     /*遍历模糊*/
     for (int y = 0; y < height; ++y)
@@ -272,6 +279,12 @@
     
     unsigned char *gbimage_data    = (unsigned char*)malloc(4 * width * height);
     
+    
+    if(NULL == gbimage_data)
+    {
+        NSLog(@"失败");
+        exit(0);
+    }
     
     /*进度值*/
     double         progress_value  = 0.0f;
@@ -330,10 +343,14 @@
 
 - (void)dealloc
 {
-    [super dealloc];
+    
     
     if(nil != _gaussian_template)
+    {
+       
         free(_gaussian_template);
+    }
+    [super dealloc];
 }
 
 @end

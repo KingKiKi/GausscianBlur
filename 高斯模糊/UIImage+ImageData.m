@@ -38,6 +38,12 @@
     
     unsigned char   *image_data  = (unsigned char *)malloc(width * height * 4);//设为4个字节
     
+    if(image_data == NULL)
+    {
+        NSLog(@"失败");
+        exit(0);
+    }
+    
     CGContextRef    context_ref  = CGBitmapContextCreate(image_data,
                                                          width,
                                                          height,
@@ -59,7 +65,7 @@
     return image_data;
 }
 
-+ (UIImage *)imageWithChar:(unsigned char *)image_data width:(int)width height:(int)height
++ (UIImage *)imageWithChar:(unsigned char*)image_data width:(int)width height:(int)height
 {
     
    

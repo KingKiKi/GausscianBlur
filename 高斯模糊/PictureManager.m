@@ -31,9 +31,10 @@
 
 - (void)dealloc
 {
+    [_picture_strategy    release], _picture_strategy    = nil;
+
     [super dealloc];
     
-    [_picture_strategy    release], _picture_strategy    = nil;
     
 }
 
