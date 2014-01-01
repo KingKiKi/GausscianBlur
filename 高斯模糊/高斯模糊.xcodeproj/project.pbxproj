@@ -26,6 +26,7 @@
 		AC256DAD186DC52B00B9CF92 /* GausscianBlurOne.m in Sources */ = {isa = PBXBuildFile; fileRef = AC256DAC186DC52B00B9CF92 /* GausscianBlurOne.m */; };
 		AC256DB0186DC58100B9CF92 /* GausscianBlurTwo.m in Sources */ = {isa = PBXBuildFile; fileRef = AC256DAF186DC58100B9CF92 /* GausscianBlurTwo.m */; };
 		AC256DB3186E023F00B9CF92 /* UIImage+ImageData.m in Sources */ = {isa = PBXBuildFile; fileRef = AC256DB2186E023F00B9CF92 /* UIImage+ImageData.m */; };
+		AC66D58118749F73001F9E03 /* EdgeextractionBySobel.m in Sources */ = {isa = PBXBuildFile; fileRef = AC66D58018749F73001F9E03 /* EdgeextractionBySobel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +69,8 @@
 		AC256DAF186DC58100B9CF92 /* GausscianBlurTwo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GausscianBlurTwo.m; sourceTree = "<group>"; };
 		AC256DB1186E023F00B9CF92 /* UIImage+ImageData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageData.h"; sourceTree = "<group>"; };
 		AC256DB2186E023F00B9CF92 /* UIImage+ImageData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageData.m"; sourceTree = "<group>"; };
+		AC66D57F18749F73001F9E03 /* EdgeextractionBySobel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EdgeextractionBySobel.h; sourceTree = "<group>"; };
+		AC66D58018749F73001F9E03 /* EdgeextractionBySobel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EdgeextractionBySobel.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -190,6 +193,8 @@
 				AC256DAF186DC58100B9CF92 /* GausscianBlurTwo.m */,
 				AC256DB1186E023F00B9CF92 /* UIImage+ImageData.h */,
 				AC256DB2186E023F00B9CF92 /* UIImage+ImageData.m */,
+				AC66D57F18749F73001F9E03 /* EdgeextractionBySobel.h */,
+				AC66D58018749F73001F9E03 /* EdgeextractionBySobel.m */,
 			);
 			name = "图形处理(未完成)";
 			sourceTree = "<group>";
@@ -300,6 +305,7 @@
 				AC256DAA186DC3D900B9CF92 /* PictureStrategy.m in Sources */,
 				AC256D7E186DACC100B9CF92 /* AppDelegate.m in Sources */,
 				AC256D7A186DACC100B9CF92 /* main.m in Sources */,
+				AC66D58118749F73001F9E03 /* EdgeextractionBySobel.m in Sources */,
 				AC256DA7186DC39200B9CF92 /* PictureManager.m in Sources */,
 				AC256DAD186DC52B00B9CF92 /* GausscianBlurOne.m in Sources */,
 				AC256D9F186DACF100B9CF92 /* RootViewController.m in Sources */,

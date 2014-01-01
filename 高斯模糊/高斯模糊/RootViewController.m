@@ -11,6 +11,7 @@
 #import "GausscianBlurOne.h"
 #import "GausscianBlurTwo.h"
 #import "UIImage+ImageData.h"
+#import "EdgeextractionBySobel.h"
 
 @interface RootViewController ()
 {
@@ -58,7 +59,7 @@
     //过滤按钮
     
     [_filter_button setFrame:CGRectMake(230.0f, 200.0f, 60.0, 30.0)];
-    [_filter_button setTitle:@"高斯模糊" forState:UIControlStateNormal];
+    [_filter_button setTitle:@"过滤" forState:UIControlStateNormal];
     [_filter_button.titleLabel setFont:[UIFont systemFontOfSize:14.0f]];
     [_filter_button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
     [_filter_button setBackgroundColor:[UIColor blackColor]];
@@ -97,7 +98,6 @@
 - (void)filterImage
 {
     
-   // UIImage          *image    = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle]pathForResource:@"test" ofType:@"jpg"]];
     UIImage *image = [UIImage imageNamed:@"test.jpg"];
     
     PictureManager   *pic_m    = [[[PictureManager alloc] init] autorelease];
@@ -106,16 +106,16 @@
     //
     //    //开始模糊
     [gb2 setStartBlock:^(void *data) {
-       
+        
     }];
     
     
-
+    
     //进行中
     [gb2 setShowProgressBlock:^(double value, void *data, id information) {
-      
         
-      
+        
+        
         
         CGSize size;
         [(NSValue *)information getValue:&size];
@@ -126,13 +126,13 @@
         //        [temp_image_view setImage:temp_image];
         
         CGImageRef temp_image_ref = [UIImage imageRefWithChar:data width:size.width height:size.height];
-            
-            //[temp_image_view setImage:[UIImage imageWithCGImage:temp_image_ref]];
-            
-            dispatch_sync(dispatch_get_main_queue(), ^{
-                 _progress_label.text = [NSString stringWithFormat:@"%.2f %%",(value * 100)];
-                 [_filtered_image_view setImage:[UIImage imageWithCGImage:temp_image_ref]];
-            });
+        
+        //[temp_image_view setImage:[UIImage imageWithCGImage:temp_image_ref]];
+        
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            _progress_label.text = [NSString stringWithFormat:@"%.2f %%",(value * 100)];
+            [_filtered_image_view setImage:[UIImage imageWithCGImage:temp_image_ref]];
+        });
         
         //
         
@@ -140,7 +140,7 @@
     
     //结束
     [gb2 setEndBlock:^(void *data) {
-       // // [_filtered_image_view setImage:(UIImage *)data];
+        // // [_filtered_image_view setImage:(UIImage *)data];
         //[_filtered_image_view setImage:[UIImage imageWithCGImage:data]];
         
         dispatch_sync(dispatch_get_main_queue(), ^{
@@ -159,7 +159,10 @@
     // something
     [pic_m pictureTransformProgress:image];
 
+    
 }
+
+
 
 
 - (void)filterButtonPressed:(id)sender
@@ -178,28 +181,26 @@
     
     _is_filtering = YES;
     
-    
-//    NSThread* myThread = [[NSThread alloc] initWithTarget:self
-//                                                 selector:@selector(filterImage)
-//                                                   object:nil];
-//    [myThread start];
 
+    //高斯模糊
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//        
+//        [self filterImage];
+//        
+//        
+//    });
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-       
-        [self filterImage];
-
-        
-    });
+    //边缘提取
+    UIImage *image = [UIImage imageNamed:@"test.jpg"];
+    PictureManager        *pic_m    = [[[PictureManager alloc] init] autorelease];
+    EdgeextractionBySobel *eb       = [[[EdgeextractionBySobel alloc] init] autorelease];
+    [pic_m setPicture_strategy:eb];
+    UIImage *image2 = [pic_m pictureTransform:image];
     
+    [_filtered_image_view setImage:image2];
     
-//    UIImage     *gb_image = [pic_m pictureTransform:image];
-//    
-//
-//       // NSLog(@"123");
-//    [_filtered_image_view setImage:gb_image];
+    _is_filtering = NO;
     
-
  
 }
 

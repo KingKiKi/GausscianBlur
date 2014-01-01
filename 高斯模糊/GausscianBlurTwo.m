@@ -11,26 +11,33 @@
 
 
 
-#define _a 0   //R
-#define _b 1   //G
-#define _c 2   //B
-#define _d 3   //A
+
 
 @interface GausscianBlurTwo (private)
 
-/*计算权重*/
+/*
+ 计算权重
+ */
 - (double)pointWithWeight:(int)x pointY:(int)y;
 
-/*初始化 模糊模版*/
+/*
+ 初始化 模糊模版
+ */
 - (void)initGaussianTemplate:(int)r;
 
-/*改变某个点*/
+/*
+ 改变某个点
+ */
 - (void)transformPixel:(unsigned char*)pixel gbimageData:(unsigned char*)image_data weight:(double *)weight_value pixelX:(int)x pixelY:(int)y width:(int)width height:(int)height;
 
-/*边界检查  不足就由对面的弥补 */
+/*
+ 边界检查  不足就由对面的弥补
+ */
 - (int)checkEdge:(int)x changeNumber:(int)y referenceValue:(int)z;
 
-/*计算模糊点*/
+/*
+ 计算模糊点
+ */
 - (unsigned char)clampValue:(double)value;
 
 @end
@@ -71,11 +78,13 @@
     _template_size     = _diameter * _diameter;
     _gaussian_template = (double *)malloc(_template_size * 8);
     
+#ifdef DEBUG
     if(_gaussian_template == NULL)
     {
         NSLog(@"失败");
         exit(0);
     }
+#endif
     
     double sum = 0.0f;
    
@@ -129,9 +138,9 @@
             
             
             //rgb
-            double r = (unsigned char)pixel[4 * i_change * width + 4 * j_change + _a];
-            double g = (unsigned char)pixel[4 * i_change * width + 4 * j_change + _b];
-            double b = (unsigned char)pixel[4 * i_change * width + 4 * j_change + _c];
+            double r = (unsigned char)pixel[4 * i_change * width + 4 * j_change + _R];
+            double g = (unsigned char)pixel[4 * i_change * width + 4 * j_change + _G];
+            double b = (unsigned char)pixel[4 * i_change * width + 4 * j_change + _B];
           //  NSLog(@"%d %d",i_change,j_change);
           //  NSLog(@"%f %f %f %f",r,g,b,(double)pixel[4 * i_change * width + 4 * j_change + 3]);
            // NSLog(@"%d %d  %d %d", (4 * i_change * width + 4 * j_change + 0) , (4 * i_change * width + 4 * j_change + 1) , (4 * i_change * width + 4 * j_change + 2),(4 * i_change * width + 4 * j_change + 3));
@@ -149,10 +158,10 @@
         
     }
    
-    image_data[4 * y * width + 4 * x + _a] = [self clampValue:red];
-    image_data[4 * y * width + 4 * x + _b] = [self clampValue:green];
-    image_data[4 * y * width + 4 * x + _c] = [self clampValue:blue];
-    image_data[4 * y * width + 4 * x + _d] = 0xff;
+    image_data[4 * y * width + 4 * x + _R] = [self clampValue:red];
+    image_data[4 * y * width + 4 * x + _G] = [self clampValue:green];
+    image_data[4 * y * width + 4 * x + _B] = [self clampValue:blue];
+    image_data[4 * y * width + 4 * x + _A] = 0xff;
     
 }
 
@@ -196,6 +205,10 @@
     if(self)
     {
         _gaussian_template = nil;
+        _sigma             = 1.0f;
+        _radius            = 3;
+        _diameter          = 7;
+        
         
     }
     
@@ -237,12 +250,14 @@
     int            height       = (int)CGImageGetHeight(image.CGImage);
     
     unsigned char *gbimage_data = (unsigned char*)malloc(4 * width * height);
-
+    
+#ifdef DEBUG
     if(NULL == gbimage_data)
     {
         NSLog(@"失败");
         exit(0);
     }
+#endif
     
     /*遍历模糊*/
     for (int y = 0; y < height; ++y)
@@ -279,12 +294,13 @@
     
     unsigned char *gbimage_data    = (unsigned char*)malloc(4 * width * height);
     
-    
+#ifdef DEBUG
     if(NULL == gbimage_data)
     {
         NSLog(@"失败");
         exit(0);
     }
+#endif
     
     /*进度值*/
     double         progress_value  = 0.0f;

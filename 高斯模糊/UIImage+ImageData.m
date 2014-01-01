@@ -31,18 +31,21 @@
    
     CGColorSpaceRef cololr_space = CGColorSpaceCreateDeviceRGB();
     
-
+    
     
     int              width       = (int)CGImageGetWidth(image_ref);
     int              height      = (int)CGImageGetHeight(image_ref);
     
     unsigned char   *image_data  = (unsigned char *)malloc(width * height * 4);//设为4个字节
     
+
+#ifdef DEBUG
     if(image_data == NULL)
     {
         NSLog(@"失败");
         exit(0);
     }
+#endif
     
     CGContextRef    context_ref  = CGBitmapContextCreate(image_data,
                                                          width,

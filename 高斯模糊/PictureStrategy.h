@@ -8,6 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
+
+#define _R 0   //R
+#define _G 1   //G
+#define _B 2   //B
+#define _A 3   //A
+
 typedef void (^VoidBlock)(void* data);
 typedef void (^ShowProgressBlock)(double value,void* data,id information);
 
@@ -21,9 +27,14 @@ typedef void (^ShowProgressBlock)(double value,void* data,id information);
 @property (nonatomic,assign) BOOL is_on_progress;
 
 
-/*图片变化的2个方法*/
+/*
+ 返回需要模糊后的图片
+ */
 - (UIImage*)pictureTransform:(UIImage *)image;
 
+/*
+ 图片进度
+ */
 - (void)pictureTransformProgress:(UIImage *)image;
 
 
